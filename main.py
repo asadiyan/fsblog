@@ -24,15 +24,20 @@ def generate_post_id() -> int:
     post_path = get_post_path(post_id)
 
     # Create folder
-    pathlib.Path(post_path).mkdir(parents=True, exist_ok=True)
+    create_directory(post_path)
 
     # Return id
     return post_id
 
 
+def create_directory(path: str):
+    pathlib.Path(path).mkdir(parents=True, exist_ok=True)
+
+
 def get_post_ids() -> list:
     """
     """
+    create_directory(WORK_PATH)
     list_of_files_and_folders = os.listdir(WORK_PATH)
 
     list_of_folders = []
@@ -51,7 +56,30 @@ def get_post_ids() -> list:
 
 def new_post(title: str, content: str) -> int:
     post_id = generate_post_id()
-    post_dir = get_post_path(post_id)
+    create_title_file(post_id, title)
+    create_content_file(post_id, content)
+    create_comments_directory(post_id)
+
+
+def create_title_file(post_id: int, title: str):
+    post_path = get_post_path(post_id)
+    file_path = f'{post_path}/title.txt'
+    fi = open(file_path, 'w')
+    fi.write(title)
+    fi.close()
+
+
+def create_content_file(post_id: int, content: str):
+    post_path = get_post_path(post_id)
+    file_path = f'{post_path}/content.txt'
+    with open(file_path, 'w') as fi:
+        fi.write(content)
+
+
+def create_comments_directory(post_id: int):
+    post_path = get_post_path(post_id)
+    comment_path = f'{post_path}/comments'
+    create_directory(comment_path)
 
 
 new_post("My new post", "I will tell it later.")
