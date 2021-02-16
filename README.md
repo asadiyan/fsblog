@@ -1,2 +1,2 @@
 # fsblog
-a blog systerm based on file system just for education perpose
+a blog systerm based on file system just for education purposes.
