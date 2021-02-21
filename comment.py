@@ -2,7 +2,8 @@ import os
 import pathlib
 
 from settings import WORK_PATH
-from post import create_directory, create_file, get_post_path
+from utils import create_directory, create_file
+from post import get_post_path
 
 
 def generate_comment_id(post_id: int) -> int:
@@ -54,16 +55,16 @@ def get_comment_path(post_id: int, comment_id: int) -> str:
     return f'{post_path}/comments/{comment_id}'
 
 
-def reply(post_id: int, name: str, content: str, ip: str, ref: int=None):
+def reply(post_id: int, name: str, content: str, ip: str, ref: int = None):
     comment_id = generate_comment_id(post_id)
     comment_path = get_comment_path(post_id, comment_id)
-    
+
     ip_file_path = f'{comment_path}/ip.txt'
     create_file(ip_file_path, ip)
-    
+
     name_file_path = f'{comment_path}/name.txt'
     create_file(name_file_path, name)
-    
+
     content_file_path = f'{comment_path}/content.txt'
     create_file(content_file_path, content)
 
@@ -74,3 +75,22 @@ def reply(post_id: int, name: str, content: str, ip: str, ref: int=None):
     return comment_id
 
 
+def get_comment_content(comment_path: str) -> str:
+    file_path = f'{comment_path}/content.txt'
+    with open(file_path, 'r') as f:
+        content = f.read()
+        return content
+
+
+def get_comment_ip(comment_path: str) -> str:
+    file_path = f'{comment_path}/ip.txt'
+    with open(file_path, 'r') as f:
+        ip = f.read()
+        return ip
+
+
+def get_comment_name(comment_path: str) -> str:
+    file_path = f'{comment_path}/name.txt'
+    with open(file_path, 'r') as f:
+        name = f.read()
+        return name

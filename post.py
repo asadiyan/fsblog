@@ -1,7 +1,7 @@
 import os
-import pathlib
 
 from settings import WORK_PATH
+from utils import create_directory, create_file
 
 
 def get_post_path(post_id: int) -> str:
@@ -30,15 +30,6 @@ def generate_post_id() -> int:
     return post_id
 
 
-def create_directory(path: str):
-    pathlib.Path(path).mkdir(parents=True, exist_ok=True)
-
-
-def create_file(file_path: str, data: str):
-    with open(file_path, 'w') as fi:
-        fi.write(data)
-
-
 def get_post_ids() -> list:
     """
     """
@@ -59,7 +50,6 @@ def get_post_ids() -> list:
     return list_of_post_ids
 
 
-
 def create_post_title_file(post_id: int, title: str):
     post_path = get_post_path(post_id)
     file_path = f'{post_path}/title.txt'
@@ -77,6 +67,7 @@ def create_comments_directory(post_id: int):
     comment_path = f'{post_path}/comments'
     create_directory(comment_path)
 
+
 def new_post(title: str, content: str) -> int:
     post_id = generate_post_id()
     create_post_title_file(post_id, title)
@@ -85,3 +76,17 @@ def new_post(title: str, content: str) -> int:
     return post_id
 
 
+def get_post_content(post_id: int) -> str:
+    post_path = get_post_path(post_id)
+    file_path = f'{post_path}/content.txt'
+    with open(file_path, "r") as f:
+        content = f.read()
+        return content
+
+
+def get_post_title(post_id: int) -> str:
+    post_path = get_post_path(post_id)
+    file_path = f'{post_path}/title.txt'
+    with open(file_path, "r") as f:
+        title = f.read()
+        return title
